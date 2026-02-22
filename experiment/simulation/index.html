@@ -1,13 +1,222 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-		<!-- Your code goes here-->
+<title>Bellman Ford Algorithm</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="css/main.css" rel="stylesheet" />
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+
+<body>
+   <!-- <header id="title">Bellman Ford Algorithm</header> -->
+
+
+   <div id="modeSelection">
+      <div id="modeSelectionContainer">
+         <p>Choose your learning mode:</p>
+         <div id="modeButtons">
+            <button class="modeBtn" data-mode="visualization">
+               <span class="modeIcon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                     <!-- edges -->
+                     <line x1="12" y1="7" x2="6" y2="13" stroke="currentColor" stroke-width="2" />
+                     <line x1="12" y1="7" x2="18" y2="13" stroke="currentColor" stroke-width="2" />
+
+
+                     <!-- nodes -->
+                     <circle cx="12" cy="5" r="2" fill="currentColor" />
+                     <circle cx="6" cy="15" r="2" fill="currentColor" />
+                     <circle cx="18" cy="15" r="2" fill="currentColor" />
+                  </svg>
+               </span>
+
+
+               <span class="modeTitle">Visualization</span>
+               <span class="modeDesc">Watch step-by-step visual animations</span>
+            </button>
+
+
+            <button class="modeBtn" data-mode="code">
+               <span class="modeIcon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                     <polyline points="9 6 3 12 9 18" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                     <polyline points="15 6 21 12 15 18" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+               </span>
+
+
+               <span class="modeTitle">Code Walkthrough</span>
+               <span class="modeDesc">Follow the code line by line</span>
+            </button>
+         </div>
+      </div>
+   </div>
+
+
+   <div id="mainContainer">
+      <button id="backToModeSelection">
+               ← Back
+      </button>
+
+
+      <div id="container">
+
+
+         <div id="mainPane">
+            <div id="visualSection">
+               <div id="leftPanel">
+               <!-- LEFT: CONTROLS -->
+               <div id="visControls">
+                  <div class="controlGroup">
+                     <label>Vertices (3-7)</label>
+                     <input type="number" id="vertexCount" min="3" max="7" value="5" />
+                  </div>
+
+
+                  <div class="controlGroup">
+                     <label>Source Vertex</label>
+                     <input type="number" id="sourceVertex" min="0" max="6" value="0" placeholder="(0-n)" />
+                  </div>
+
+
+                  <div class="controlGroup">
+                     <label>Graph</label>
+                     <button id="randomGraphBtn">Random Graph</button>
+                     <button id="build-manually">Build Manually</button>
+                  </div>
+
+
+                  <!-- ================= MAIN MODAL ================= -->
+                  <div id="manual-modal" class="modal hidden">
+                     <div class="modal-content">
+
+
+                        <div class="modal-header">
+                           <span id="modal-heading">Build Graph</span>
+                           <button class="close-manual">✕</button>
+                        </div>
+
+
+                        <div class="manual-instructions">
+                           <p>1. <strong>Click</strong> a node to select it (Yellow).</p>
+                           <p>2. <strong>Click</strong> another node to form an edge.</p>
+                           <p>3. Enter <strong>weight</strong> and click Add.</p>
+                           <p>4. Click <strong>Apply</strong> to finish.</p>
+                        </div>
+                        <svg id="manual-svg"></svg>
+
+
+                        <div class="toolbar">
+                           <button class="close-manual secondary">Cancel</button>
+                           <button id="apply-manual" class="primary">Apply</button>
+                        </div>
+
+
+                        <div id="manual-error" class="hidden"></div>
+                     </div>
+                  </div>
+
+
+                  <!-- ================= EDGE MODAL ================= -->
+                  <div id="edge-modal" class="modal hidden">
+                     <div class="modal-content small">
+                        <h3>Add Edge</h3>
+                        <p id="edge-info"></p>
+                        <input id="edge-weight" type="number" placeholder="Weight" />
+                        <div class="modal-actions">
+                           <button id="edge-cancel">Cancel</button>
+                           <button id="edge-confirm" class="primary">Add</button>
+                        </div>
+                     </div>
+                  </div>
+
+
+                  <div class="controlGroup">
+                     <label>Speed</label>
+                     <select id="speedSelect">
+                        <option value="1200">Slow</option>
+                        <option value="700" selected>Normal</option>
+                        <option value="300">Fast</option>
+                     </select>
+                  </div>
+
+
+                  <div class="controlGroup">
+                     <label>Simulation</label>
+                     <div class="simButtons">
+                        <button id="playBtn">Play</button>
+                        <button id="prevBtn">Prev Step</button>
+                        <button id="nextBtn">Next Step</button>
+                        <button id="resetBtn">Reset</button>
+                     </div>
+                  </div>
+
+
+                  <div id="analysisSection">
+                     <h3>Analysis</h3>
+                     <div class="analysis-grid">
+                        <div class="analysis-card">
+                           <span id="relaxCount" class="card-value">0</span>
+                           <span class="card-label">Relaxations</span>
+                        </div>
+                        <div class="analysis-card">
+                           <span id="complexityValue" class="card-value">O(0)</span>
+                           <span class="card-label">Complexity (V X E)</span>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Visualization-only distance table -->
+                  <div id="distanceSectionVis">
+                     
+                     <div id="distanceTableVis"></div>
+                  </div>
+               </div>
+
+
+               <!-- CENTER: GRAPH -->
+               <div id="graphArea">
+                  <div id="graphHint" class="hidden">Tap individual nodes to see the shortest paths from the source node</div>
+                  <svg id="graphSvg"></svg>
+               </div>
+               </div>
+
+
+            <!-- RIGHT: CODE PANEL -->
+            <div id="codeSection" class="hidden">
+               <div id="codePanel">
+                  <div id="codeExplanation" class="info"></div>
+                  <div id="codeWindow">
+                     <div id="codeLines"></div>
+                  </div>
+
+
+                  <div id="distanceSection">
+                     
+                     <div id="distanceTable"></div>
+                  </div>
+
+
+                  <div id="negativeCycleNote">
+                     <strong>Negative Cycle Detection:</strong>
+                     <pre>for (const { u, v, w } of edges)
+  if (dist[u] + w &lt; dist[v]) → Negative cycle!</pre>
+                     <span>After V-1 iterations, if any edge can still be relaxed, the graph contains a negative cycle.</span>
+                  </div>
+
+                  <div id="shortestPathsSection" class="hidden">
+                     <h3>Shortest Paths from Source</h3>
+                     <div id="shortestPathsList"></div>
+                  </div>
+               </div>
+            </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </body>
-</html>
+
+
+<script src="js/main.js"></script>
+
+
+</html>  
