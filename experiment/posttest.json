@@ -55,13 +55,13 @@
     {
       "question": "If you observe in the simulation that no distance values change during an entire iteration, what can you conclude?",
       "answers": {
-        "a": "The algorithm has found all shortest paths",
+        "a": "The shortest paths have already converged and no further updates are needed.",
         "b": "The graph has a negative cycle",
         "c": "The source vertex is disconnected",
         "d": "The algorithm has an error"
       },
       "explanations": {
-        "a": "Correct! If no relaxations succeed (no distance updates) during an iteration, all shortest paths have been found. The algorithm could terminate early at this point.",
+        "a": "Correct! If no relaxations succeed (no distance updates) during an iteration, distances have converged and no further updates are needed. This is exactly the early-termination condition in Bellman-Ford.",
         "b": "Incorrect. A negative cycle would cause distances to keep decreasing, not stay constant.",
         "c": "Incorrect. A disconnected source would result in some vertices remaining at infinity, but wouldn't cause this specific observation.",
         "d": "Incorrect. This is actually the expected behavior when the algorithm has converged to the solution."
@@ -121,7 +121,7 @@
       "difficulty": "difficult"
     },
     {
-      "question": "Consider a graph shown in the simulation: A→B (2), B→C (3), C→A (-8). Starting from A, what would Bellman-Ford detect?",
+      "question": "Consider a graph shown in the simulation: A→B (2), B→C (3), C→A (-8), with source A. What is the final output of Bellman-Ford on this graph?",
       "answers": {
         "a": "Shortest path from A to C is 5",
         "b": "Shortest path from A to B is 2",
@@ -173,7 +173,7 @@
 
     },
     {
-      "question": "A delivery company wants to find the cheapest route between cities, but some routes have toll rebates (negative costs). Which algorithm should they use and why?",
+      "question": "A delivery company wants the cheapest routes from one source city to all other cities, and some routes have toll rebates (negative costs). Which algorithm should they use and why?",
       "answers": {
         "a": "Dijkstra, because it is faster",
         "b": "Bellman-Ford, because it handles negative edge weights",
@@ -182,9 +182,9 @@
       },
       "explanations": {
         "a": "Incorrect. Dijkstra's algorithm cannot handle negative edge weights, which are present due to toll rebates.",
-        "b": "Correct! Bellman-Ford is specifically designed to handle graphs with negative edge weights, making it suitable for this scenario.",
+        "b": "Correct! Bellman-Ford is specifically designed to handle graphs with negative edge weights, making it suitable for this single-source scenario.",
         "c": "Incorrect. Prim's algorithm is for minimum spanning trees, not shortest paths.",
-        "d": "Incorrect. Floyd-Warshall is for all-pairs shortest paths, but Bellman-Ford is more direct for single-source problems."
+        "d": "Incorrect in this context. Floyd-Warshall can handle negative weights, but it solves all-pairs shortest paths; Bellman-Ford is the appropriate direct choice for single-source shortest paths."
       },
       "correctAnswer": "b",
       "difficulty": "application"

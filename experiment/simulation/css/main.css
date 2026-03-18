@@ -1330,22 +1330,174 @@ button.secondary {
 }
 
 
-/* Tablet and smaller screens */
+/* Tablet (portrait + small landscape) */
 @media (max-width: 1024px) {
+  #mainContainer {
+    padding: 12px;
+  }
+
+  #container {
+    padding: 10px;
+    border-radius: 12px;
+    gap: 12px;
+  }
+
   #visualSection {
     flex-direction: column;
     height: auto;
-    min-height: 800px;
+    min-height: 0;
+    max-height: none;
   }
 
+  #leftPanel {
+    flex-direction: column;
+    gap: 10px;
+  }
 
   #visControls {
     width: 100%;
-    max-height: 300px;
+    max-height: none;
+    overflow-y: visible;
   }
 
+  #graphArea {
+    min-width: 0;
+    width: 100%;
+    min-height: 420px;
+  }
+
+  #graphSvg {
+    height: 420px;
+  }
+
+  #codeSection {
+    min-width: 0;
+    width: 100%;
+    flex: 1;
+  }
+
+  #codePanel {
+    width: 100%;
+    max-height: none;
+  }
+
+  .simButtons {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .simButtons button {
+    flex: 1 1 calc(50% - 8px);
+    min-height: 40px;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Phones */
+@media (max-width: 767px) {
+  #modeSelection {
+    padding: 12px;
+  }
+
+  #modeSelectionContainer {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  #modeButtons {
+    gap: 12px;
+  }
+
+  .modeBtn {
+    min-width: 0;
+    width: 100%;
+    padding: 12px 14px;
+  }
+
+  #backToModeSelection {
+    position: static;
+    align-self: flex-start;
+    margin: 0 0 8px 0;
+    font-size: 0.78rem;
+    padding: 8px 12px;
+  }
+
+  #mainContainer {
+    padding: 8px;
+    justify-content: flex-start;
+  }
+
+  #container {
+    max-width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  #visControls {
+    padding: 10px;
+    gap: 10px;
+    font-size: 0.85rem;
+  }
+
+  .controlGroup input,
+  .controlGroup select {
+    min-height: 38px;
+    font-size: 0.9rem;
+  }
+
+  .controlGroup button {
+    min-height: 38px;
+    font-size: 0.85rem;
+  }
+
+  .simButtons button {
+    flex: 1 1 100%;
+    min-height: 42px;
+  }
+
+  #statusMessage {
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
 
   #graphArea {
-    min-height: 500px;
+    min-height: 340px;
+    padding: 4px;
+  }
+
+  #graphSvg {
+    height: 340px;
+  }
+
+  #codeWindow {
+    max-height: 250px;
+    font-size: 0.72rem;
+  }
+
+  #distanceTable,
+  #distanceTableVis {
+    font-size: 0.75rem;
+  }
+
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-value {
+    font-size: 1rem;
+  }
+
+  .card-label {
+    font-size: 0.68rem;
+  }
+
+  .modal-content {
+    width: 96vw;
+    height: 86vh;
+  }
+
+  .modal-content.small {
+    width: 92vw;
   }
 }

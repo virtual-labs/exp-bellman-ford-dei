@@ -1,3 +1,2 @@
-
-1. CP Algorithm
-Link - https://cp-algorithms.com/graph/bellman_ford.html
+1. E. Balagurusamy, Programming in C, McGraw Hill Education, India.
+2. Introduction to Algorithms by Thomas H. Cormen

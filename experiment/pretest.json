@@ -4,18 +4,18 @@
     {
       "question": "What is the primary purpose of the Bellman-Ford algorithm?",
       "answers": {
-        "a": "To find the minimum spanning tree of a graph",
-        "b": "To find shortest paths from a source vertex to all other vertices",
-        "c": "To detect all cycles in a graph",
-        "d": "To perform topological sorting on a directed graph"
+        "a": "To detect all cycles in a graph",
+        "b": "To perform topological sorting on a directed graph",
+        "c": "To find the minimum spanning tree of a graph",
+        "d": "To find shortest paths from a source vertex to all other vertices"
       },
       "explanations": {
-        "a": "Incorrect. Finding the minimum spanning tree is the purpose of algorithms like Kruskal's or Prim's algorithm, not Bellman-Ford.",
-        "b": "Correct! The Bellman-Ford algorithm is a shortest path algorithm that computes the shortest paths from a single source vertex to all other vertices in a weighted graph.",
-        "c": "Incorrect. While Bellman-Ford can detect negative cycles as a secondary feature, detecting all cycles is not its primary purpose.",
-        "d": "Incorrect. Topological sorting is performed on directed acyclic graphs (DAGs) and is unrelated to shortest path algorithms."
+        "a": "Incorrect. While Bellman-Ford can detect negative cycles as a secondary feature, detecting all cycles is not its primary purpose.",
+        "b": "Incorrect. Topological sorting is performed on directed acyclic graphs (DAGs) and is unrelated to shortest path algorithms.",
+        "c": "Incorrect. Finding the minimum spanning tree is the purpose of algorithms like Kruskal's or Prim's algorithm, not Bellman-Ford.",
+        "d": "Correct! The Bellman-Ford algorithm is a shortest path algorithm that computes the shortest paths from a single source vertex to all other vertices in a weighted graph."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "d",
       "difficulty": "beginner"
     },
     {
@@ -53,7 +53,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "How many times does the Bellman-Ford algorithm relax all edges in the graph?",
+      "question": "In the standard (naive, without early termination) Bellman-Ford algorithm, how many times are all edges relaxed?",
       "answers": {
         "a": "E times, where E is the number of edges",
         "b": "V times, where V is the number of vertices",
@@ -64,7 +64,7 @@
         "a": "Incorrect. The number of edges doesn't determine the number of iterations.",
         "b": "Incorrect. It's V-1 iterations, not V iterations (for the main algorithm).",
         "c": "Correct! The algorithm performs exactly V-1 iterations because the longest possible simple path in a graph with V vertices has V-1 edges.",
-        "d": "Incorrect. While some optimized implementations may terminate early, the standard algorithm runs for exactly V-1 iterations."
+        "d": "Incorrect for the standard version. This is an optimization used in improved implementations that stop early when an iteration makes no updates."
       },
       "correctAnswer": "c",
       "difficulty": "intermediate"
@@ -72,86 +72,86 @@
     {
       "question": "In the Bellman-Ford algorithm, what does 'relaxing an edge' mean?",
       "answers": {
-        "a": "Removing the edge from the graph temporarily",
-        "b": "Checking if a shorter path exists through that edge and updating distances if so",
+        "a": "Checking if a shorter path exists through that edge and updating distances if so",
+        "b": "Removing the edge from the graph temporarily",
         "c": "Decreasing the weight of the edge",
         "d": "Marking the edge as visited"
       },
       "explanations": {
-        "a": "Incorrect. Edges are never removed during the algorithm execution.",
-        "b": "Correct! Edge relaxation checks if the path to vertex v through vertex u is shorter than the current known path. If distance[u] + weight(u,v) < distance[v], then distance[v] is updated.",
+        "a": "Correct! Edge relaxation checks if the path to vertex v through vertex u is shorter than the current known path. If distance[u] + weight(u,v) < distance[v], then distance[v] is updated.",
+        "b": "Incorrect. Edges are never removed during the algorithm execution.",
         "c": "Incorrect. Edge weights remain constant throughout the algorithm.",
         "d": "Incorrect. While edges may be processed, 'relaxation' specifically refers to the distance update check."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "a",
       "difficulty": "intermediate"
     },
     {
       "question": "What happens if you run one more iteration (the V-th iteration) after the standard V-1 iterations?",
       "answers": {
-        "a": "It optimizes the solution further",
-        "b": "It allows detection of negative weight cycles",
+        "a": "It has no purpose and is redundant",
+        "b": "It optimizes the solution further",
         "c": "It resets all distances to infinity",
-        "d": "It has no purpose and is redundant"
+        "d": "It allows detection of negative weight cycles"
       },
       "explanations": {
-        "a": "Incorrect. If no negative cycles exist, the V-th iteration cannot improve the solution further.",
-        "b": "Correct! After V-1 iterations, all shortest paths should be finalized. If any edge can still be relaxed in the V-th iteration, it indicates a negative weight cycle exists.",
+        "a": "Incorrect. The V-th pass is useful as a check for negative cycles.",
+        "b": "Incorrect. If no negative cycles exist, the V-th iteration cannot improve the solution further.",
         "c": "Incorrect. The algorithm doesn't reset distances; it continues checking for relaxation.",
-        "d": "Incorrect. The V-th iteration serves the important purpose of negative cycle detection."
+        "d": "Correct! After V-1 iterations, all shortest paths should be finalized. If any edge can still be relaxed in the V-th iteration, it indicates a negative weight cycle exists."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "d",
       "difficulty": "intermediate"
     },
     {
       "question": "If a graph has 6 vertices and 10 edges, what is the maximum number of edge relaxation operations performed by Bellman-Ford?",
       "answers": {
         "a": "10",
-        "b": "50",
-        "c": "60",
+        "b": "60",
+        "c": "50",
         "d": "100"
       },
       "explanations": {
         "a": "Incorrect. This only accounts for one iteration through the edges.",
-        "b": "Correct! The algorithm performs V-1 = 5 iterations, and processes all E = 10 edges in each iteration. Total = 5 × 10 = 50 relaxation operations.",
-        "c": "Incorrect. This would be V × E = 6 × 10, but we only do V-1 iterations.",
+        "b": "Incorrect. This would be V × E = 6 × 10, but we only do V-1 iterations.",
+        "c": "Correct! The algorithm performs V-1 = 5 iterations, and processes all E = 10 edges in each iteration. Total = 5 × 10 = 50 relaxation operations.",
         "d": "Incorrect. This calculation doesn't match the algorithm's structure."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "c",
       "difficulty": "intermediate"
     },
     {
       "question": "Consider a graph with edges: A→B (weight 5), B→C (weight -3), C→D (weight 2), A→D (weight 8). Starting from A, what is the shortest distance to D?",
       "answers": {
-        "a": "8",
-        "b": "4",
+        "a": "4",
+        "b": "8",
         "c": "6",
         "d": "5"
       },
       "explanations": {
-        "a": "Incorrect. While the direct path A→D has weight 8, this is not the shortest path.",
-        "b": "Correct! Path A→B→C→D = 5 + (-3) + 2 = 4, which is shorter than the direct path A→D = 8. This demonstrates how negative edge weights can create shorter paths.",
+        "a": "Correct! Path A→B→C→D = 5 + (-3) + 2 = 4, which is shorter than the direct path A→D = 8. This demonstrates how negative edge weights can create shorter paths.",
+        "b": "Incorrect. While the direct path A→D has weight 8, this is not the shortest path.",
         "c": "Incorrect. No valid path from A to D has this total weight.",
         "d": "Incorrect. This would only be the weight to B, not to D."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "a",
       "difficulty": "difficult"
     },
     {
       "question": "Which statement about negative weight cycles is TRUE?",
       "answers": {
         "a": "Bellman-Ford can find shortest paths even when negative cycles are reachable from the source",
-        "b": "Negative cycles make the shortest path problem undefined for affected vertices",
-        "c": "Dijkstra's algorithm can handle negative cycles better than Bellman-Ford",
-        "d": "Negative cycles always increase the shortest path distances"
+        "b": "Dijkstra's algorithm can handle negative cycles better than Bellman-Ford",
+        "c": "Negative cycles always increase the shortest path distances",
+        "d": "Negative cycles make the shortest path problem undefined for affected vertices"
       },
       "explanations": {
         "a": "Incorrect. When negative cycles are reachable, shortest paths become undefined (approach negative infinity).",
-        "b": "Correct! When a negative weight cycle is reachable from the source and affects a path to some vertex, the shortest path becomes undefined because you can traverse the cycle indefinitely to keep reducing the cost.",
-        "c": "Incorrect. Dijkstra's algorithm cannot handle negative weights at all, let alone negative cycles.",
-        "d": "Incorrect. Negative cycles decrease path distances, potentially to negative infinity, not increase them."
+        "b": "Incorrect. Dijkstra's algorithm cannot handle negative weights at all, let alone negative cycles.",
+        "c": "Incorrect. Negative cycles decrease path distances, potentially to negative infinity, not increase them.",
+        "d": "Correct! When a negative weight cycle is reachable from the source and affects a path to some vertex, the shortest path becomes undefined because you can traverse the cycle indefinitely to keep reducing the cost."
       },
-      "correctAnswer": "b",
+      "correctAnswer": "d",
       "difficulty": "difficult"
     },
     {

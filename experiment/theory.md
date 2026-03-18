@@ -12,22 +12,24 @@ The algorithm works by repeatedly relaxing all edges of the graph. After V-1 ite
 
 | Symbol         | Meaning                                      |
 |--------------- |----------------------------------------------|
-| \(G(V, E)\)      | Graph with vertices \(V\) and edges \(E\)        |
-| \(V\)            | Set of vertices                              |
-| \(E\)            | Set of edges                                 |
-| \(S\)            | Source vertex                                |
-| \(u, v\)         | Vertices in the graph                        |
-| \(w\)            | Weight of an edge                            |
-| \(dist[v]\)      | Current shortest distance to vertex \(v\)    |
+| G(V, E)        | Graph with vertices V and edges E            |
+| V              | Set of vertices                              |
+| E              | Set of edges                                 |
+| S              | Source vertex                                |
+| u, v           | Vertices in the graph                        |
+| w              | Weight of an edge                            |
+| dist[v]        | Current shortest distance to vertex v        |
 
 ---
 
 ## 2. Problem Definition
 
 **Given:**
-* A directed or undirected graph **G(V, E)**
+* A directed graph **G(V, E)**
 * A source vertex **S**
 * Edge weights that may be positive, zero, or negative
+
+> **Important:** For an **undirected graph with a negative-weight edge**, Bellman-Ford is not applicable for shortest paths because that edge can be traversed in both directions, creating a negative cycle of length 2.
 
 **Find:**
 * The shortest distance from **S** to every other vertex
@@ -276,7 +278,7 @@ Total: 1 + (-2) + (-3) = -4 (negative cycle!)
 
 *  Slower than Dijkstra (O(V×E) vs O(E log V))
 *  Inefficient for large dense graphs
-*  Always runs V-1 iterations
+*  Basic version runs V-1 iterations; optimized implementations can terminate early if an iteration makes no updates
 *  Not suitable for real-time applications
 
 ---
@@ -301,11 +303,11 @@ Total: 1 + (-2) + (-3) = -4 (negative cycle!)
 | **Negative edge weights**  | Yes                | No                    |
 | **Negative cycle detection** | Yes              | No                    |
 | **Time complexity**        | O(V × E)           | O(E log V)            |
-| **Space complexity**       | O(V)               | O(V)                  |
+| **Space complexity**       | O(V) auxiliary (or O(V + E) including graph storage) | O(V + E) (binary heap + adjacency list) |
 | **Approach**               | Dynamic Programming | Greedy                |
 | **Data structure**         | Simple arrays      | Priority Queue (Heap) |
 | **Edge processing**        | All edges, V-1 times | Adjacent edges only  |
-| **Early termination**      | No                 | Yes (when target found) |
+| **Early termination**      | Not in basic version (yes with no-update optimization) | Yes (when target found) |
 | **Best for**               | Negative weights, cycle detection | Non-negative weights, speed |
 
 ### 13.2 When to Use Which Algorithm?

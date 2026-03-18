@@ -29,6 +29,7 @@ let nodeStates = {};
 let isPlaying = false;
 let algorithmSteps = []; // Track algorithm steps
 let isAlgorithmComplete = false;
+let algorithmResult = 'idle'; // idle | running | complete | negative-cycle
 let highlightedPathNodes = new Set();
 let highlightedPathEdges = new Set();
 
@@ -189,6 +190,7 @@ backToModeSelectionBtn.addEventListener('click', () => {
 
 // ----------------------------- Graph Visualization -----------------------------
 const svg = $("graphSvg");
+let graphRelayoutTimer = null;
 
 
 // let nodes = []; // Moved to Bellman-Ford Globals
@@ -237,13 +239,7 @@ function createNodes(n) {
   nodes = [];
 
 
-  const { width, height } = svg.getBoundingClientRect();
-  const cx = width / 2;
-  const cy = height / 2;
-
-
-  const margin = 60;
-  const r = Math.min(cx, cy) - margin;
+  const { width, height, cx, cy, r } = getGraphMetrics(n);
 
 
   for (let i = 0; i < n; i++) {
@@ -255,6 +251,74 @@ function createNodes(n) {
     });
   }
 }
+
+function getGraphMetrics(nodeCount = nodes.length || 3) {
+  let { width, height } = svg.getBoundingClientRect();
+
+  // Fallback for cases where percentage-height SVG temporarily reports very small dimensions.
+  if (width < 120 || height < 120) {
+    const graphArea = $("graphArea");
+    if (graphArea) {
+      const areaRect = graphArea.getBoundingClientRect();
+      width = Math.max(width, areaRect.width - 8);
+      height = Math.max(height, areaRect.height - 8);
+    }
+  }
+
+  width = Math.max(220, width || 0);
+  height = Math.max(220, height || 0);
+
+  const cx = width / 2;
+  const cy = height / 2;
+  const count = Math.max(3, nodeCount);
+  const minDim = Math.min(width, height);
+
+  // Keep nodes smaller on compact screens.
+  const nodeRadius = Math.max(9, Math.min(16, minDim / (count * 3.6)));
+  const margin = Math.max(nodeRadius + 14, Math.min(56, minDim * 0.14));
+  const r = Math.max(nodeRadius * 3.2, Math.min(cx, cy) - margin);
+
+  return { width, height, cx, cy, r, nodeRadius };
+}
+
+function getNodeRenderRadius() {
+  const metrics = getGraphMetrics();
+  return metrics.nodeRadius;
+}
+
+function relayoutNodesToCurrentGraphSize() {
+  if (!svg || nodes.length === 0) return;
+
+  const { cx, cy, r } = getGraphMetrics();
+
+  const count = nodes.length;
+  for (let i = 0; i < count; i++) {
+    const angle = (2 * Math.PI * i) / count - Math.PI / 2;
+    nodes[i].x = cx + r * Math.cos(angle);
+    nodes[i].y = cy + r * Math.sin(angle);
+  }
+
+  drawGraph();
+}
+
+function scheduleGraphRelayout() {
+  if (graphRelayoutTimer) clearTimeout(graphRelayoutTimer);
+  graphRelayoutTimer = setTimeout(() => {
+    relayoutNodesToCurrentGraphSize();
+  }, 120);
+}
+
+if (typeof ResizeObserver !== "undefined" && svg) {
+  const observer = new ResizeObserver(() => {
+    scheduleGraphRelayout();
+  });
+  observer.observe(svg);
+}
+
+window.addEventListener("resize", scheduleGraphRelayout);
+window.addEventListener("orientationchange", () => {
+  setTimeout(scheduleGraphRelayout, 120);
+});
 
 
 /* ================= SOURCE NODE SELECTOR ================= */
@@ -390,8 +454,15 @@ function buildPath(destination) {
 
   const path = [];
   let current = destination;
+  const visited = new Set();
 
   while (current !== "-" && current !== undefined) {
+    if (visited.has(current)) {
+      // Predecessor loop detected (possible in negative-cycle scenarios)
+      return null;
+    }
+    visited.add(current);
+
     path.unshift(current);
     if (current === sourceNode) break;
     current = predecessors[current];
@@ -403,7 +474,7 @@ function buildPath(destination) {
 function clearHighlightedPath() {
   highlightedPathNodes.clear();
   highlightedPathEdges.clear();
-  
+
   // Clear highlighting from path items in the right panel
   const pathItems = document.querySelectorAll('.path-item');
   pathItems.forEach(item => item.classList.remove('highlighted'));
@@ -451,7 +522,7 @@ function handleNodePathSelection(nodeId) {
 
   setHighlightedPath(nodeId);
   drawGraph();
-  
+
   // Highlight the corresponding path item in the right panel
   clearPathItemHighlights();
   const pathItem = document.querySelector(`[data-destination="${nodeId}"]`);
@@ -608,7 +679,7 @@ function drawGraph(activeEdge = null) {
 
 
     // Offset so arrow does NOT touch node
-    const nodeRadius = 18;
+    const nodeRadius = getNodeRenderRadius();
     const startX = x1 + ux * nodeRadius;
     const startY = y1 + uy * nodeRadius;
     const endX = x2 - ux * nodeRadius;
@@ -712,6 +783,8 @@ function editEdgeWeight(index) {
 
 
 function drawNodes() {
+  const nodeRadius = getNodeRenderRadius();
+
   nodes.forEach(n => {
     const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
@@ -719,7 +792,7 @@ function drawNodes() {
     const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     c.setAttribute("cx", n.x);
     c.setAttribute("cy", n.y);
-    c.setAttribute("r", 18);
+    c.setAttribute("r", nodeRadius);
 
 
     // Apply node state class
@@ -749,7 +822,7 @@ function drawNodes() {
     // Distance Label (new)
     const distText = document.createElementNS("http://www.w3.org/2000/svg", "text");
     distText.setAttribute("x", n.x);
-    distText.setAttribute("y", n.y - 25);
+    distText.setAttribute("y", n.y - (nodeRadius + 10));
     distText.setAttribute("class", "node-dist");
     distText.setAttribute("text-anchor", "middle");
     distText.setAttribute("fill", "#000");
@@ -776,15 +849,45 @@ function drawNodes() {
 
 /* ================= BELLMAN-FORD ALGORITHM ================= */
 
+function detectNegativeCycleFromSource() {
+  const n = nodes.length;
+  const dist = Array(n).fill(Infinity);
+  dist[sourceNode] = 0;
+
+  // Standard Bellman-Ford relaxations
+  for (let i = 0; i < n - 1; i++) {
+    let changed = false;
+    for (const { u, v, w } of edges) {
+      if (dist[u] !== Infinity && dist[u] + w < dist[v]) {
+        dist[v] = dist[u] + w;
+        changed = true;
+      }
+    }
+    if (!changed) break;
+  }
+
+  // If still relaxable, a reachable negative cycle exists
+  for (const { u, v, w } of edges) {
+    if (dist[u] !== Infinity && dist[u] + w < dist[v]) {
+      return true;
+    }
+  }
+  return false;
+}
+
 
 function generateBellmanFordSteps() {
   algorithmSteps = [];
+  algorithmResult = 'running';
   algorithmStartTime = performance.now();
   const n = nodes.length;
   const V = n; // Number of vertices
   const E = edges.length; // Number of edges
   const dist = [];
   const currentPredecessors = Array(n).fill("-"); // Local predecessors for step generation
+  const hasNegativeCycleFromSource = detectNegativeCycleFromSource();
+  // For negative-cycle graphs, keep the walkthrough compact so detection appears quickly.
+  const compactNegativeTrace = hasNegativeCycleFromSource;
 
 
   // Initialize distances
@@ -835,16 +938,18 @@ function generateBellmanFordSteps() {
 
 
       // Step: Check Edge
-      algorithmSteps.push({
-        type: 'check',
-        message: `Checking edge ${u} → ${v} (weight ${w})`,
-        distances: [...dist],
-        predecessors: [...currentPredecessors],
-        activeEdge: j,
-        activeNodes: [u, v],
-        updatedNode: null,
-        relaxCount: relaxCount
-      });
+      if (!compactNegativeTrace) {
+        algorithmSteps.push({
+          type: 'check',
+          message: `Checking edge ${u} → ${v} (weight ${w})`,
+          distances: [...dist],
+          predecessors: [...currentPredecessors],
+          activeEdge: j,
+          activeNodes: [u, v],
+          updatedNode: null,
+          relaxCount: relaxCount
+        });
+      }
 
 
       if (dist[u] !== Infinity && dist[u] + w < dist[v]) {
@@ -879,13 +984,16 @@ function generateBellmanFordSteps() {
           relaxCount: relaxCount
         });
       } else {
-        algorithmSteps.push({
-          type: 'no-relax',
-          message: `No relaxation: dist[${u}] + ${w} ≥ dist[${v}]`,
-          distances: [...dist],
-          activeEdge: j,
-          activeNodes: [u, v],
-        });
+        if (!compactNegativeTrace) {
+          algorithmSteps.push({
+            type: 'no-relax',
+            message: `No relaxation: dist[${u}] + ${w} ≥ dist[${v}]`,
+            distances: [...dist],
+            predecessors: [...currentPredecessors],
+            activeEdge: j,
+            activeNodes: [u, v],
+          });
+        }
       }
     }
 
@@ -895,6 +1003,7 @@ function generateBellmanFordSteps() {
         type: 'early-stop',
         message: `No changes in iteration ${i + 1}. Algorithm can stop early.`,
         distances: [...dist],
+        predecessors: [...currentPredecessors],
         activeEdge: null,
         activeNodes: [],
         updatedNode: null
@@ -904,18 +1013,7 @@ function generateBellmanFordSteps() {
   }
 
 
-  // Check for negative cycles
-  let hasNegativeCycle = false;
-  for (const edge of edges) {
-    const { u, v, w } = edge;
-    if (dist[u] !== Infinity && dist[u] + w < dist[v]) {
-      hasNegativeCycle = true;
-      break;
-    }
-  }
-
-
-  if (hasNegativeCycle) {
+  if (hasNegativeCycleFromSource) {
     algorithmSteps.push({
       type: 'negative-cycle',
       message: '⚠️ Negative cycle detected! Shortest paths are undefined.',
@@ -945,9 +1043,15 @@ function generateBellmanFordSteps() {
 function executeStep(step) {
   if (step.type === 'complete') {
     isAlgorithmComplete = true;
+    algorithmResult = 'complete';
     showGraphHint();
+  } else if (step.type === 'negative-cycle') {
+    isAlgorithmComplete = false;
+    algorithmResult = 'negative-cycle';
+    hideGraphHint();
   } else {
     isAlgorithmComplete = false;
+    algorithmResult = 'running';
     hideGraphHint();
   }
 
@@ -1028,7 +1132,14 @@ function executeStep(step) {
 
 function runNextStep() {
   if (currentStepIndex >= algorithmSteps.length) {
-    isAlgorithmComplete = true;
+    const finalStep = algorithmSteps.length > 0 ? algorithmSteps[algorithmSteps.length - 1] : null;
+    if (finalStep?.type === 'complete') {
+      isAlgorithmComplete = true;
+      algorithmResult = 'complete';
+    } else if (finalStep?.type === 'negative-cycle') {
+      isAlgorithmComplete = false;
+      algorithmResult = 'negative-cycle';
+    }
     isPlaying = false;
     const playBtn = $("playBtn");
     if (playBtn) playBtn.textContent = 'Play';
@@ -1039,9 +1150,22 @@ function runNextStep() {
     return false;
   }
 
-
-  executeStep(algorithmSteps[currentStepIndex]);
+  const step = algorithmSteps[currentStepIndex];
+  executeStep(step);
   currentStepIndex++;
+
+  // Stop immediately on terminal states so autoplay does not appear to keep running.
+  if (step.type === 'negative-cycle' || step.type === 'complete') {
+    isPlaying = false;
+    const playBtn = $("playBtn");
+    if (playBtn) playBtn.textContent = 'Play';
+    if (visTimer) {
+      clearInterval(visTimer);
+      visTimer = null;
+    }
+    return false;
+  }
+
   return true;
 }
 
@@ -1056,6 +1180,7 @@ function resetAlgorithm() {
 
   isPlaying = false;
   isAlgorithmComplete = false;
+  algorithmResult = 'idle';
   hideGraphHint();
   currentStepIndex = 0;
   algorithmSteps = [];
@@ -1122,7 +1247,12 @@ if (playBtn) {
       playBtn.textContent = 'Play';
     } else {
       // Start/Resume playing
-      if (isAlgorithmComplete || algorithmSteps.length === 0) {
+      if (
+        isAlgorithmComplete ||
+        algorithmResult === 'negative-cycle' ||
+        algorithmSteps.length === 0 ||
+        currentStepIndex >= algorithmSteps.length
+      ) {
         // Generate fresh steps
         resetAlgorithm();
         initializeDistances();
