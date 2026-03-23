@@ -1,2 +1,1 @@
-1. E. Balagurusamy, Programming in C, McGraw Hill Education, India.
-2. Introduction to Algorithms by Thomas H. Cormen
+1. T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein, Introduction to Algorithms, 3rd Edition (2009), MIT Press (Chapter 24, Single-Source Shortest Paths)
