@@ -1,0 +1,20 @@
+
+/home/runner/work/exp-bellman-ford-dei/exp-bellman-ford-dei/experiment/simulation/js/main.js
+   198:5   warning  'currentEdgeIndex' is assigned a value but never used  no-unused-vars
+   242:11  warning  'width' is assigned a value but never used             no-unused-vars
+   242:18  warning  'height' is assigned a value but never used            no-unused-vars
+   755:10  warning  'removeEdgeByIndex' is defined but never used          no-unused-vars
+   762:10  warning  'editEdgeWeight' is defined but never used             no-unused-vars
+  1134:7   warning  'currentStepIndex' is not defined                      no-undef
+  1153:31  warning  'currentStepIndex' is not defined                      no-undef
+  1155:3   warning  'currentStepIndex' is not defined                      no-undef
+  1185:3   warning  'currentStepIndex' is not defined                      no-undef
+  1254:9   warning  'currentStepIndex' is not defined                      no-undef
+  1309:7   warning  'currentStepIndex' is not defined                      no-undef
+  1315:3   warning  'currentStepIndex' is not defined                      no-undef
+  1316:30  warning  'currentStepIndex' is not defined                      no-undef
+  1777:12  warning  'showError' is defined but never used                  no-unused-vars
+  1782:12  warning  'showSuccess' is defined but never used                no-unused-vars
+
+✖ 15 problems (0 errors, 15 warnings)
+

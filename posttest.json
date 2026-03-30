@@ -1,0 +1,210 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "After watching the simulation, why does the algorithm need exactly V-1 iterations?",
+      "answers": {
+        "a": "Because the graph can have at most V-1 edges",
+        "b": "Because the longest simple path has at most V-1 edges",
+        "c": "Because it takes V-1 steps to visit all vertices",
+        "d": "Because V-1 is the optimal number found experimentally"
+      },
+      "explanations": {
+        "a": "Incorrect. A graph can have many more than V-1 edges (up to V² in a complete graph).",
+        "b": "Correct! In a graph with V vertices, the longest simple path (without repeating vertices) can have at most V-1 edges. Each iteration correctly computes shortest paths using one more edge, so V-1 iterations suffice.",
+        "c": "Incorrect. Visiting vertices is not the same as finding shortest paths through all possible edge combinations.",
+        "d": "Incorrect. This is mathematically proven, not experimentally determined."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "In the simulation, when an edge is highlighted during relaxation, what is the algorithm doing?",
+      "answers": {
+        "a": "Removing that edge from consideration",
+        "b": "Checking if using that edge provides a shorter path",
+        "c": "Marking the edge as part of the final shortest path tree",
+        "d": "Increasing the weight of that edge"
+      },
+      "explanations": {
+        "a": "Incorrect. Edges are never removed; they're all considered in each iteration.",
+        "b": "Correct! When an edge (u, v) is highlighted, the algorithm performs the relaxation check: comparing distance[u] + weight(u,v) with distance[v] to see if a shorter path exists.",
+        "c": "Incorrect. The highlighting shows the checking process, not the final result. The edge may or may not be part of the shortest path tree.",
+        "d": "Incorrect. Edge weights never change during algorithm execution."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "During the simulation, you notice a vertex's distance value changes from 15 to 12. What does this indicate?",
+      "answers": {
+        "a": "The edge weight to that vertex decreased",
+        "b": "A shorter path to that vertex was discovered",
+        "c": "The vertex moved closer to the source",
+        "d": "An error occurred in the algorithm"
+      },
+      "explanations": {
+        "a": "Incorrect. Edge weights are fixed and never change during execution.",
+        "b": "Correct! When a vertex's distance decreases, it means a relaxation was successful and a shorter path to that vertex was found through a different route.",
+        "c": "Incorrect. Vertices don't physically move; the 'distance' is the computed shortest path cost, not physical location.",
+        "d": "Incorrect. Decreasing distances are the normal, expected behavior when shorter paths are discovered."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "If you observe in the simulation that no distance values change during an entire iteration, what can you conclude?",
+      "answers": {
+        "a": "The shortest paths have already converged and no further updates are needed.",
+        "b": "The graph has a negative cycle",
+        "c": "The source vertex is disconnected",
+        "d": "The algorithm has an error"
+      },
+      "explanations": {
+        "a": "Correct! If no relaxations succeed (no distance updates) during an iteration, distances have converged and no further updates are needed. This is exactly the early-termination condition in Bellman-Ford.",
+        "b": "Incorrect. A negative cycle would cause distances to keep decreasing, not stay constant.",
+        "c": "Incorrect. A disconnected source would result in some vertices remaining at infinity, but wouldn't cause this specific observation.",
+        "d": "Incorrect. This is actually the expected behavior when the algorithm has converged to the solution."
+      },
+      "correctAnswer": "a",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Based on the simulation, what happens during the relaxation of edge A→B with weight 3, if distance[A] = 5 and distance[B] = 7?",
+      "answers": {
+        "a": "distance[B] remains 7",
+        "b": "distance[B] becomes 8",
+        "c": "distance[B] becomes 5",
+        "d": "distance[B] becomes 3"
+      },
+      "explanations": {
+        "a": "Correct! The relaxation check computes: distance[A] + weight = 5 + 3 = 8. Since 8 is NOT less than the current distance[B] = 7, no update occurs and distance[B] remains 7.",
+        "b": "Incorrect. We don't update distance[B] to 8 because 8 > 7, meaning the new path is longer than the current known path.",
+        "c": "Incorrect. The new distance would be distance[A] + weight, not just distance[A].",
+        "d": "Incorrect. The edge weight alone doesn't determine the vertex distance; we add it to distance[A]."
+      },
+      "correctAnswer": "a",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In the simulation, you see that after V-1 iterations, running one more iteration still updates a distance value. What does this mean?",
+      "answers": {
+        "a": "The algorithm needs more iterations to converge",
+        "b": "The graph contains a negative weight cycle",
+        "c": "The implementation has a bug",
+        "d": "The source vertex was chosen incorrectly"
+      },
+      "explanations": {
+        "a": "Incorrect. V-1 iterations are mathematically sufficient for graphs without negative cycles.",
+        "b": "Correct! If distances still change in the V-th iteration, it proves a negative weight cycle exists. Without such cycles, all shortest paths must be found by V-1 iterations.",
+        "c": "Incorrect. This is actually the intended behavior for negative cycle detection, not a bug.",
+        "d": "Incorrect. The source vertex choice doesn't affect whether negative cycles can be detected."
+      },
+      "correctAnswer": "b",
+      "difficulty": "difficult"
+    },
+    {
+      "question": "Watching the simulation with edges: S→A (4), S→B (5), A→B (-6), with distances after iteration 1 being S=0, A=4, B=5. After iteration 2, what will distance[B] become?",
+      "answers": {
+        "a": "5 (unchanged)",
+        "b": "-2",
+        "c": "-1",
+        "d": "0"
+      },
+      "explanations": {
+        "a": "Incorrect. The edge A→B will be relaxed in iteration 2, which will update distance[B].",
+        "b": "Correct! In iteration 2, relaxing edge A→B: distance[A] + weight(A,B) = 4 + (-6) = -2. Since -2 < 5, distance[B] is updated to -2. This shows how negative edges create shorter paths in later iterations.",
+        "c": "Incorrect. The calculation 4 + (-6) equals -2, not -1.",
+        "d": "Incorrect. This doesn't match the arithmetic of the path through A."
+      },
+      "correctAnswer": "b",
+      "difficulty": "difficult"
+    },
+    {
+      "question": "Consider a graph shown in the simulation: A→B (2), B→C (3), C→A (-8), with source A. What is the final output of Bellman-Ford on this graph?",
+      "answers": {
+        "a": "Shortest path from A to C is 5",
+        "b": "Shortest path from A to B is 2",
+        "c": "A negative weight cycle exists",
+        "d": "No path exists from A to C"
+      },
+      "explanations": {
+        "a": "Incorrect. While A→B→C = 5, the presence of a negative cycle makes shortest paths undefined.",
+        "b": "Incorrect. Although this is initially true, the negative cycle is the more critical finding.",
+        "c": "Correct! The cycle A→B→C→A has total weight 2 + 3 + (-8) = -3, which is negative. Bellman-Ford would detect this in the V-th iteration as distances would keep decreasing.",
+        "d": "Incorrect. Paths exist; the issue is that they're affected by a negative cycle."
+      },
+      "correctAnswer": "c",
+      "difficulty": "difficult"
+    },
+    {
+      "question": "In the simulation, edges are processed in order: E1, E2, E3, E4. If you change the order to E4, E3, E2, E1, what happens to the final result?",
+      "answers": {
+        "a": "The shortest distances will be different",
+        "b": "The shortest distances will be the same, but convergence may be faster or slower",
+        "c": "The algorithm will fail",
+        "d": "Negative cycles may not be detected"
+      },
+      "explanations": {
+        "a": "Incorrect. After V-1 complete iterations, the final distances are guaranteed to be the same regardless of edge order.",
+        "b": "Correct! Edge processing order affects how quickly distances converge, but after V-1 iterations, the final shortest distances will be identical. Some orders may find optimal values earlier within those iterations.",
+        "c": "Incorrect. The algorithm works correctly regardless of edge processing order.",
+        "d": "Incorrect. Negative cycle detection works regardless of edge order after V iterations."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "After using the simulation, you understand that Bellman-Ford is preferred over Dijkstra when:",
+      "answers": {
+        "a": "You need the fastest possible algorithm",
+        "b": "The graph has negative edge weights",
+        "c": "The graph is very large",
+        "d": "You only need the path to one specific vertex"
+      },
+      "explanations": {
+        "a": "Incorrect. Dijkstra's algorithm is actually faster (O(E log V) vs O(VE)) when applicable.",
+        "b": "Correct! The primary reason to choose Bellman-Ford is when the graph contains negative edge weights, which Dijkstra cannot handle. If all weights are non-negative, Dijkstra is preferred for better performance.",
+        "c": "Incorrect. For large graphs with non-negative weights, Dijkstra would be more efficient.",
+        "d": "Incorrect. Both algorithms compute paths from source to all vertices; neither specializes in single-target paths."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+
+    },
+    {
+      "question": "A delivery company wants the cheapest routes from one source city to all other cities, and some routes have toll rebates (negative costs). Which algorithm should they use and why?",
+      "answers": {
+        "a": "Dijkstra, because it is faster",
+        "b": "Bellman-Ford, because it handles negative edge weights",
+        "c": "Prim's, because it finds minimum spanning trees",
+        "d": "Floyd-Warshall, because it works for all pairs"
+      },
+      "explanations": {
+        "a": "Incorrect. Dijkstra's algorithm cannot handle negative edge weights, which are present due to toll rebates.",
+        "b": "Correct! Bellman-Ford is specifically designed to handle graphs with negative edge weights, making it suitable for this single-source scenario.",
+        "c": "Incorrect. Prim's algorithm is for minimum spanning trees, not shortest paths.",
+        "d": "Incorrect in this context. Floyd-Warshall can handle negative weights, but it solves all-pairs shortest paths; Bellman-Ford is the appropriate direct choice for single-source shortest paths."
+      },
+      "correctAnswer": "b",
+      "difficulty": "application"
+    },
+    {
+      "question": "In currency exchange, how can Bellman-Ford be used to detect arbitrage opportunities?",
+      "answers": {
+        "a": "By finding the longest path in the exchange graph",
+        "b": "By detecting negative weight cycles that represent profit loops",
+        "c": "By sorting all exchange rates",
+        "d": "By maximizing the number of exchanges"
+      },
+      "explanations": {
+        "a": "Incorrect. Arbitrage is about profit cycles, not longest paths.",
+        "b": "Correct! Negative weight cycles in the log-transformed exchange graph indicate arbitrage opportunities (profit loops).",
+        "c": "Incorrect. Sorting rates does not reveal cycles or arbitrage.",
+        "d": "Incorrect. The number of exchanges is not relevant; cycles with negative total weight are."
+      },
+      "correctAnswer": "b",
+      "difficulty": "application"
+    }
+  ]
+}

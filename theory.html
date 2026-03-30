@@ -1,0 +1,992 @@
+<!DOCTYPE html><html lang="en"><head>
+      <!--Google Tag Manager-->
+      <script class="gtm">
+        var dataLayer = [{
+        'labName': 'Virtual Lab',
+        'discipline': 'Test',
+        'college': 'DLBG',
+        'phase': 'Testing',
+        'expName': 'BELLMAN-FORD ALGORITHM FOR SINGLE SOURCE SHORTEST PATH',
+        'expShortName': 'bellman-ford'
+        }];
+    
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-5NMQ9NQ');
+      </script>
+      <!--End Google Tag Manager-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    
+    	<meta name="experiment-short-name" content="bellman-ford">
+    	<meta name="developer-institute" content="DLBG">
+    	<meta name="learning-unit" content="BELLMAN-FORD ALGORITHM FOR SINGLE SOURCE SHORTEST PATH">
+    	<meta name="task-name" content="Theory">
+    
+    <!-- For iPhone -->
+    <meta name="msapplication-TileColor" content="#4076e0">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#4076e0">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#4076e0">
+    <title>Virtual Labs</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" integrity="sha512-Oy18vBnbSJkXTndr2n6lDMO5NN31UljR8e/ICzVPrGpSud4Gkckb8yUpqhKuUNoE+o9gAb4O/rAxxw1ojyUVzg==" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/github-markdown.min.css">
+    <link rel="stylesheet" href="./assets/css/vlabs-style.css">
+    <link rel="stylesheet" href="./assets/css/toast.css">
+    <link rel="stylesheet" href="./assets/katex_assets/katex.min.css">
+    
+    <script src="./assets/js/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      h1 {
+      font-size: 1.8rem;
+      }
+      h2 {
+      font-size: 1.4rem;
+      }
+      h3 {
+      font-size: 1.2rem;
+      }
+
+      h2, h3 {
+      font-weight: 800;
+      }
+    </style>
+    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"></head>
+  <body class="p-0 container-fluid vlabs-page d-flex flex-column justify-content-between">
+      <!--Google Tag Manager (noscript)-->
+      <noscript class="gtm">
+        <iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-5NMQ9NQ" style="display:none;visibility:hidden" width="0">
+        </iframe>
+      </noscript>
+      <!--End Google Tag Manager (noscript)-->
+  
+      <header class="vlabs-header sticky-top bg-white">
+        <nav class="p-0 navbar navbar-light d-flex align-items-stretch">
+          
+          <button class="navbar-toggler px-4" type="button" onclick="toggle()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="d-flex justify-content-center">        
+            <a href="https://vlab.co.in" class="navbar-brand">
+              <img src="./assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+            </a>
+          </div>
+          
+          <div id="headerNavbar" class="d-none border-top flex-grow-1 d-lg-flex align-items-center justify-content-end">
+            <div class="svc-rating-display">
+                <rating-display spreadsheetid="1x12nhpp0QvnsA6x-O1sV4IA9SAbfVsq_wiexWkutOmU" sheetname="Experiment-Database" columnname="Experiment Short Name" columnvalue="bellman-ford" imagesdirectory="/plugins/svc-rating/images/">
+                </rating-display>
+            </div>      <div class="svc-rating-submit">
+                <rating-submit title="Rate" this="" experiment="">
+                </rating-submit>
+            </div>      <bug-report id="bug-report" title="[BUG REPORT] BELLMAN-FORD ALGORITHM FOR SINGLE SOURCE SHORTEST PATH" page-type="text" context-info="{&quot;organisation&quot;:&quot;Virtual Labs&quot;,&quot;developer_institute&quot;:&quot;DLBG&quot;,&quot;expname&quot;:&quot;BELLMAN-FORD ALGORITHM FOR SINGLE SOURCE SHORTEST PATH&quot;,&quot;labname&quot;:&quot;Virtual Lab&quot;,&quot;phase&quot;:&quot;Testing&quot;}" checkbox-json="{&quot;text&quot;:[&quot;Insufficient Content&quot;],&quot;video&quot;:[&quot;Insufficient Content&quot;],&quot;assesment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;assessment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;simulation&quot;:[&quot;Simulation Not Working&quot;,&quot;Incorrect Results/Observations&quot;,&quot;Insufficient/Incorrect Instructions&quot;],&quot;DEFAULT&quot;:[&quot;Page Not Loading&quot;,&quot;Content Not Visible&quot;,&quot;Incorrect Content&quot;]}" button_style="border: none; color: #fff; background-color: #288ec8; text-align: center; font-size: 1.05rem; border-radius: 1em;padding: 0.6em 1.2em; margin: 0 10px" position="override" custom_button_class="v-button"></bug-report>
+          </div>
+        </nav>
+      </header>
+      <div class="container-fluid flex-fill d-flex flex-column vlabs-page-main">
+        <div class="row d-flex justify-content-between">
+          <div class="flex-column">
+          <div class="row py-4 px-4 breadcrumbs">
+          	<div class="title is-4 tools">Tools</div>
+          	<span class="mx-2">
+          		<i aria-hidden="true" class="fa fa-angle-right"></i>
+          	</span>
+          	<a href="performance-report.html" class="my-2 mx-3" target="_blank">
+          		<button class="v-button">Performance Tool</button>
+          	</a>
+          	<a href="validator-report.html" class="my-2 mx-3" target="_blank">
+          		<button class="v-button">Validation Tool</button>
+          	</a>
+          </div>
+          </div>
+        </div>
+        <div class="row flex-grow-1 d-flex flex-nowrap flex-column flex-lg-row">
+          <div class="modal fade popupmenu" id="popupMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">
+                              <a href="https://vlab.co.in" class="navbar-brand">
+                                  <img src="./assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+                              </a>
+                          </h5>
+                          <button type="button" class="btn-close align-self-center" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body nav-menu">
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="index.html" class="p-2 ">
+                                      Aim
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="theory.html" class="p-2  current-item ">
+                                      Theory
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="pretest.html" class="p-2 ">
+                                      Pretest
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="procedure.html" class="p-2 ">
+                                      Procedure
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="simulation.html" class="p-2 ">
+                                      Simulation
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="posttest.html" class="p-2 ">
+                                      Posttest
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="references.html" class="p-2 ">
+                                      References
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="contributors.html" class="p-2 ">
+                                      Contributors
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div>
+                                  <div class="d-flex nav-menu-body">
+                                      <a href="feedback.html" class="p-2 ">
+                                      Feedback
+                                      </a>
+                                      
+                                  </div>
+                                  <div id="t-" class="collapse">
+                                      <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                                      </div>
+                                  </div>
+                              </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="nav flex-column sidebar nav-menu flex-shrink-0 px-lg-4 align-items-center align-items-lg-start hidden d-none d-lg-flex" id="menu">
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="index.html" class="p-2 ">
+                        Aim
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="theory.html" class="p-2  current-item ">
+                        Theory
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="pretest.html" class="p-2 ">
+                        Pretest
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="procedure.html" class="p-2 ">
+                        Procedure
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="simulation.html" class="p-2 ">
+                        Simulation
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="posttest.html" class="p-2 ">
+                        Posttest
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="references.html" class="p-2 ">
+                        References
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="contributors.html" class="p-2 ">
+                        Contributors
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex nav-menu-body">
+                        <a href="feedback.html" class="p-2 ">
+                        Feedback
+                        </a>
+                        
+                    </div>
+                    <div id="t-" class="collapse">
+                        <div class="px-3 d-flex flex-column tasks align-items-center align-items-lg-start">
+                        </div>
+                    </div>
+                </div>
+          </div>          <div class="vlabs-page-content px-5 pb-4 flex-grow-1 markdown-body">
+            <div class="text-center fix-spacing">
+              <h3 id="bellman-ford-algorithm-for-single-source-shortest-path">Bellman-Ford Algorithm for Single Source Shortest Path</h3>
+          
+            </div>
+              <h2 id="1-introduction">1. Introduction</h2>
+          <p>The <strong>Bellman–Ford algorithm</strong> is a single-source shortest path algorithm used to find the minimum distance from a given source vertex to all other vertices in a weighted graph. Unlike Dijkstra's algorithm, Bellman–Ford <strong>can handle graphs with negative edge weights</strong> and is also capable of <strong>detecting negative weight cycles</strong>.</p>
+          <p>The algorithm works by repeatedly relaxing all edges of the graph. After V-1 iterations, the shortest distances are guaranteed to be found if no negative weight cycle exists.</p>
+          <hr>
+          <h2 id="11-notation-table">1.1 Notation Table</h2>
+          <table>
+          <thead>
+          <tr>
+          <th>Symbol</th>
+          <th>Meaning</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>G(V, E)</td>
+          <td>Graph with vertices V and edges E</td>
+          </tr>
+          <tr>
+          <td>V</td>
+          <td>Set of vertices</td>
+          </tr>
+          <tr>
+          <td>E</td>
+          <td>Set of edges</td>
+          </tr>
+          <tr>
+          <td>S</td>
+          <td>Source vertex</td>
+          </tr>
+          <tr>
+          <td>u, v</td>
+          <td>Vertices in the graph</td>
+          </tr>
+          <tr>
+          <td>w</td>
+          <td>Weight of an edge</td>
+          </tr>
+          <tr>
+          <td>dist[v]</td>
+          <td>Current shortest distance to vertex v</td>
+          </tr>
+          </tbody></table>
+          <hr>
+          <h2 id="2-problem-definition">2. Problem Definition</h2>
+          <p><strong>Given:</strong></p>
+          <ul>
+          <li>A directed graph <strong>G(V, E)</strong></li>
+          <li>A source vertex <strong>S</strong></li>
+          <li>Edge weights that may be positive, zero, or negative</li>
+          </ul>
+          <blockquote>
+          <p><strong>Important:</strong> For an <strong>undirected graph with a negative-weight edge</strong>, Bellman-Ford is not applicable for shortest paths because that edge can be traversed in both directions, creating a negative cycle of length 2.</p>
+          </blockquote>
+          <p><strong>Find:</strong></p>
+          <ul>
+          <li>The shortest distance from <strong>S</strong> to every other vertex</li>
+          <li>Detect if a <strong>negative weight cycle</strong> is present</li>
+          </ul>
+          <hr>
+          <h2 id="3-key-idea">3. Key Idea</h2>
+          <p>The algorithm is based on <strong>edge relaxation</strong>:</p>
+          <blockquote>
+          <p>For an edge <code>(u → v)</code> with weight <code>w</code>:</p>
+          <p>If <code>dist[u] + w &lt; dist[v]</code>, then update <code>dist[v] = dist[u] + w</code></p>
+          </blockquote>
+          <p>The algorithm relaxes all edges V-1 times because:</p>
+          <ul>
+          <li>After 1 iteration: shortest paths with at most 1 edge are found</li>
+          <li>After k iterations: shortest paths with at most k edges are found</li>
+          <li>After V-1 iterations: all shortest paths are found</li>
+          </ul>
+          <hr>
+          <h2 id="4-algorithm-steps">4. Algorithm Steps</h2>
+          <ol>
+          <li>Initialize distance of all vertices as <strong>∞</strong>, source as <strong>0</strong></li>
+          <li>Repeat <strong>(V − 1) times</strong>: For every edge <code>(u → v)</code>, if <code>dist[u] + w &lt; dist[v]</code>, update <code>dist[v]</code></li>
+          <li>Check for negative cycles: If any edge can still be relaxed, negative cycle exists</li>
+          </ol>
+          <hr>
+          <h2 id="5-why-v-−-1-iterations">5. Why (V − 1) Iterations?</h2>
+          <p>The longest possible shortest path in a graph with <strong>V vertices</strong> can have at most <strong>V − 1 edges</strong>. After V-1 iterations, all shortest paths are guaranteed to be found.</p>
+          <hr>
+          <h2 id="6-pseudocode">6. Pseudocode</h2>
+          <pre><code>BellmanFord(Graph, V, E, source):
+              // Initialize
+              for each vertex v in V:
+                  dist[v] ← ∞
+                  predecessor[v] ← NULL
+              dist[source] ← 0
+          
+              // Relax edges V-1 times
+              for i = 1 to V - 1:
+                  for each edge (u, v, w) in E:
+                      if dist[u] ≠ ∞ and dist[u] + w &lt; dist[v]:
+                          dist[v] ← dist[u] + w
+                          predecessor[v] ← u
+          
+              // Check for negative cycles
+              for each edge (u, v, w) in E:
+                  if dist[u] ≠ ∞ and dist[u] + w &lt; dist[v]:
+                      return "Negative cycle detected"
+              
+              return dist
+          </code></pre>
+          <hr>
+          <h2 id="7-example">7. Example</h2>
+          <h3 id="71-graph-setup">7.1 Graph Setup</h3>
+          <p><img src="images/graph1.png" alt="Example Graph"></p>
+          <p><strong>Graph Properties:</strong></p>
+          <ul>
+          <li><strong>Vertices (V):</strong> {A, B, C, D} → |V| = 4</li>
+          <li><strong>Edges (E):</strong> {A→B, A→C, B→D, C→D} → |E| = 4</li>
+          <li><strong>Source vertex:</strong> A</li>
+          </ul>
+          <p><strong>Edge List with Weights:</strong></p>
+          <table>
+          <thead>
+          <tr>
+          <th>Edge</th>
+          <th>Weight</th>
+          <th>Description</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A → B</td>
+          <td>4</td>
+          <td>Positive edge</td>
+          </tr>
+          <tr>
+          <td>A → C</td>
+          <td>5</td>
+          <td>Positive edge</td>
+          </tr>
+          <tr>
+          <td>B → D</td>
+          <td>-3</td>
+          <td><strong>Negative edge</strong></td>
+          </tr>
+          <tr>
+          <td>C → D</td>
+          <td>2</td>
+          <td>Positive edge</td>
+          </tr>
+          </tbody></table>
+          <blockquote>
+          <p><strong>Note:</strong> This graph contains a negative edge weight (B→D = -3), which is why we use Bellman-Ford instead of Dijkstra.</p>
+          </blockquote>
+          <hr>
+          <h3 id="72-step-by-step-execution">7.2 Step-by-Step Execution</h3>
+          <h4 id="initialization"><strong>Initialization</strong></h4>
+          <p>Set distance of source to 0, all others to ∞:</p>
+          <table>
+          <thead>
+          <tr>
+          <th>Vertex</th>
+          <th>dist[]</th>
+          <th>predecessor[]</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A</td>
+          <td>0</td>
+          <td>NULL</td>
+          </tr>
+          <tr>
+          <td>B</td>
+          <td>∞</td>
+          <td>NULL</td>
+          </tr>
+          <tr>
+          <td>C</td>
+          <td>∞</td>
+          <td>NULL</td>
+          </tr>
+          <tr>
+          <td>D</td>
+          <td>∞</td>
+          <td>NULL</td>
+          </tr>
+          </tbody></table>
+          <p><strong>Number of iterations required:</strong> V - 1 = 4 - 1 = <strong>3 iterations</strong></p>
+          <hr>
+          <h4 id="iteration-1"><strong>Iteration 1</strong></h4>
+          <p>Relax all edges:</p>
+          <table>
+          <thead>
+          <tr>
+          <th>Edge</th>
+          <th>Condition</th>
+          <th>Action</th>
+          <th>Updated dist[]</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A → B</td>
+          <td>dist[A] + 4 &lt; dist[B] → 0 + 4 &lt; ∞</td>
+          <td><strong>Update:</strong> dist[B] = 4, pred[B] = A</td>
+          <td>dist[B] = 4</td>
+          </tr>
+          <tr>
+          <td>A → C</td>
+          <td>dist[A] + 5 &lt; dist[C] → 0 + 5 &lt; ∞</td>
+          <td><strong>Update:</strong> dist[C] = 5, pred[C] = A</td>
+          <td>dist[C] = 5</td>
+          </tr>
+          <tr>
+          <td>B → D</td>
+          <td>dist[B] + (-3) &lt; dist[D] → 4 - 3 &lt; ∞</td>
+          <td><strong>Update:</strong> dist[D] = 1, pred[D] = B</td>
+          <td>dist[D] = 1</td>
+          </tr>
+          <tr>
+          <td>C → D</td>
+          <td>dist[C] + 2 &lt; dist[D] → 5 + 2 &lt; 1</td>
+          <td>No update (7 &gt; 1)</td>
+          <td>dist[D] = 1</td>
+          </tr>
+          </tbody></table>
+          <p><strong>State after Iteration 1:</strong></p>
+          <table>
+          <thead>
+          <tr>
+          <th>Vertex</th>
+          <th>dist[]</th>
+          <th>predecessor[]</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A</td>
+          <td>0</td>
+          <td>NULL</td>
+          </tr>
+          <tr>
+          <td>B</td>
+          <td>4</td>
+          <td>A</td>
+          </tr>
+          <tr>
+          <td>C</td>
+          <td>5</td>
+          <td>A</td>
+          </tr>
+          <tr>
+          <td>D</td>
+          <td>1</td>
+          <td>B</td>
+          </tr>
+          </tbody></table>
+          <hr>
+          <h4 id="iteration-2"><strong>Iteration 2</strong></h4>
+          <p>Relax all edges again:</p>
+          <table>
+          <thead>
+          <tr>
+          <th>Edge</th>
+          <th>Condition</th>
+          <th>Action</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A → B</td>
+          <td>0 + 4 &lt; 4 → 4 &lt; 4</td>
+          <td>No update (4 = 4)</td>
+          </tr>
+          <tr>
+          <td>A → C</td>
+          <td>0 + 5 &lt; 5 → 5 &lt; 5</td>
+          <td>No update (5 = 5)</td>
+          </tr>
+          <tr>
+          <td>B → D</td>
+          <td>4 + (-3) &lt; 1 → 1 &lt; 1</td>
+          <td>No update (1 = 1)</td>
+          </tr>
+          <tr>
+          <td>C → D</td>
+          <td>5 + 2 &lt; 1 → 7 &lt; 1</td>
+          <td>No update (7 &gt; 1)</td>
+          </tr>
+          </tbody></table>
+          <p><strong>No changes in Iteration 2</strong> — distances have converged.</p>
+          <hr>
+          <h4 id="iteration-3"><strong>Iteration 3</strong></h4>
+          <p>Relax all edges again:</p>
+          <table>
+          <thead>
+          <tr>
+          <th>Edge</th>
+          <th>Condition</th>
+          <th>Action</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A → B</td>
+          <td>4 &lt; 4</td>
+          <td>No update</td>
+          </tr>
+          <tr>
+          <td>A → C</td>
+          <td>5 &lt; 5</td>
+          <td>No update</td>
+          </tr>
+          <tr>
+          <td>B → D</td>
+          <td>1 &lt; 1</td>
+          <td>No update</td>
+          </tr>
+          <tr>
+          <td>C → D</td>
+          <td>7 &lt; 1</td>
+          <td>No update</td>
+          </tr>
+          </tbody></table>
+          <p><strong>No changes in Iteration 3</strong> — algorithm complete.</p>
+          <hr>
+          <h4 id="negative-cycle-check"><strong>Negative Cycle Check</strong></h4>
+          <p>After V-1 iterations, check if any edge can still be relaxed:</p>
+          <table>
+          <thead>
+          <tr>
+          <th>Edge</th>
+          <th>Condition</th>
+          <th>Result</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A → B</td>
+          <td>0 + 4 &lt; 4?</td>
+          <td>No</td>
+          </tr>
+          <tr>
+          <td>A → C</td>
+          <td>0 + 5 &lt; 5?</td>
+          <td>No</td>
+          </tr>
+          <tr>
+          <td>B → D</td>
+          <td>4 + (-3) &lt; 1?</td>
+          <td>No</td>
+          </tr>
+          <tr>
+          <td>C → D</td>
+          <td>5 + 2 &lt; 1?</td>
+          <td>No</td>
+          </tr>
+          </tbody></table>
+          <p><strong>No negative cycle detected</strong> — shortest paths are valid!</p>
+          <hr>
+          <h3 id="73-final-result">7.3 Final Result</h3>
+          <table>
+          <thead>
+          <tr>
+          <th>Vertex</th>
+          <th>Shortest Distance</th>
+          <th>Shortest Path</th>
+          <th>Edges in Path</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>A</td>
+          <td>0</td>
+          <td>A</td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>B</td>
+          <td>4</td>
+          <td>A → B</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>C</td>
+          <td>5</td>
+          <td>A → C</td>
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>D</td>
+          <td>1</td>
+          <td>A → B → D</td>
+          <td>2</td>
+          </tr>
+          </tbody></table>
+          <p><strong>Path Reconstruction:</strong></p>
+          <ul>
+          <li><strong>A to D:</strong> Follow predecessors: D ← B ← A → Path: <strong>A → B → D</strong> (cost: 4 + (-3) = 1)</li>
+          <li><strong>A to B:</strong> Follow predecessors: B ← A → Path: <strong>A → B</strong> (cost: 4)</li>
+          <li><strong>A to C:</strong> Follow predecessors: C ← A → Path: <strong>A → C</strong> (cost: 5)</li>
+          </ul>
+          <hr>
+          <h3 id="74-visualization-summary">7.4 Visualization Summary</h3>
+          <pre><code>
+          
+          Iteration 0 (Initial):    A=0,  B=∞,  C=∞,  D=∞
+          Iteration 1:              A=0,  B=4,  C=5,  D=1
+          Iteration 2:              A=0,  B=4,  C=5,  D=1  (no change)
+          Iteration 3:              A=0,  B=4,  C=5,  D=1  (no change)
+          
+          Final shortest paths from A:
+              A ──(0)──&gt; A
+              A ──(4)──&gt; B
+              A ──(5)──&gt; C  
+              A ──(1)──&gt; D  (via B, using negative edge!)
+          
+          </code></pre>
+          <hr>
+          <h2 id="8-negative-weight-cycle-detection">8. Negative Weight Cycle Detection</h2>
+          <p>A <strong>negative weight cycle</strong> is a cycle with total negative weight. If it exists, shortest paths are undefined.</p>
+          <p><strong>Detection:</strong> After V-1 iterations, if any edge can still be relaxed, a negative cycle exists.</p>
+          <p><strong>Example:</strong></p>
+          <pre><code>
+          A → B → C → A with weights 1, -2, -3
+          Total: 1 + (-2) + (-3) = -4 (negative cycle!)
+          
+          </code></pre>
+          <hr>
+          <h2 id="9-time-and-space-complexity">9. Time and Space Complexity</h2>
+          <table>
+          <thead>
+          <tr>
+          <th>Metric</th>
+          <th>Complexity</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td>Time</td>
+          <td><strong>O(V × E)</strong></td>
+          </tr>
+          <tr>
+          <td>Space</td>
+          <td><strong>O(V)</strong></td>
+          </tr>
+          </tbody></table>
+          <hr>
+          <h2 id="10-advantages">10. Advantages</h2>
+          <ul>
+          <li> Works with <strong>negative edge weights</strong></li>
+          <li> Detects <strong>negative weight cycles</strong></li>
+          <li> Simple implementation</li>
+          <li> Guarantees correct shortest paths</li>
+          <li> Can reconstruct paths using predecessor array</li>
+          </ul>
+          <hr>
+          <h2 id="11-disadvantages">11. Disadvantages</h2>
+          <ul>
+          <li> Slower than Dijkstra (O(V×E) vs O(E log V))</li>
+          <li> Inefficient for large dense graphs</li>
+          <li> Basic version runs V-1 iterations; optimized implementations can terminate early if an iteration makes no updates</li>
+          <li> Not suitable for real-time applications</li>
+          </ul>
+          <hr>
+          <h2 id="12-applications">12. Applications</h2>
+          <ul>
+          <li><strong>Network Routing:</strong> RIP protocol uses Bellman-Ford</li>
+          <li><strong>Currency Arbitrage:</strong> Detecting profitable exchange cycles</li>
+          <li><strong>Traffic Networks:</strong> Finding shortest routes with penalties</li>
+          <li><strong>Game Theory:</strong> Computing optimal strategies</li>
+          <li><strong>Resource Allocation:</strong> Optimizing costs with benefits</li>
+          <li><strong>Constraint Satisfaction:</strong> Solving temporal constraints</li>
+          </ul>
+          <hr>
+          <h2 id="13-comparison-with-dijkstras-algorithm">13. Comparison with Dijkstra's Algorithm</h2>
+          <h3 id="131-feature-comparison">13.1 Feature Comparison</h3>
+          <table>
+          <thead>
+          <tr>
+          <th>Feature</th>
+          <th>Bellman–Ford</th>
+          <th>Dijkstra</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td><strong>Negative edge weights</strong></td>
+          <td>Yes</td>
+          <td>No</td>
+          </tr>
+          <tr>
+          <td><strong>Negative cycle detection</strong></td>
+          <td>Yes</td>
+          <td>No</td>
+          </tr>
+          <tr>
+          <td><strong>Time complexity</strong></td>
+          <td>O(V × E)</td>
+          <td>O(E log V)</td>
+          </tr>
+          <tr>
+          <td><strong>Space complexity</strong></td>
+          <td>O(V) auxiliary (or O(V + E) including graph storage)</td>
+          <td>O(V + E) (binary heap + adjacency list)</td>
+          </tr>
+          <tr>
+          <td><strong>Approach</strong></td>
+          <td>Dynamic Programming</td>
+          <td>Greedy</td>
+          </tr>
+          <tr>
+          <td><strong>Data structure</strong></td>
+          <td>Simple arrays</td>
+          <td>Priority Queue (Heap)</td>
+          </tr>
+          <tr>
+          <td><strong>Edge processing</strong></td>
+          <td>All edges, V-1 times</td>
+          <td>Adjacent edges only</td>
+          </tr>
+          <tr>
+          <td><strong>Early termination</strong></td>
+          <td>Not in basic version (yes with no-update optimization)</td>
+          <td>Yes (when target found)</td>
+          </tr>
+          <tr>
+          <td><strong>Best for</strong></td>
+          <td>Negative weights, cycle detection</td>
+          <td>Non-negative weights, speed</td>
+          </tr>
+          </tbody></table>
+          <h3 id="132-when-to-use-which-algorithm">13.2 When to Use Which Algorithm?</h3>
+          <p><strong>Use Bellman-Ford when:</strong></p>
+          <ul>
+          <li>Graph contains <strong>negative edge weights</strong></li>
+          <li>Need to <strong>detect negative weight cycles</strong></li>
+          <li>Graph is relatively sparse</li>
+          <li>Correctness is more important than speed</li>
+          <li>Working with financial/currency exchange problems</li>
+          </ul>
+          <p><strong>Use Dijkstra when:</strong></p>
+          <ul>
+          <li>All edge weights are <strong>non-negative</strong></li>
+          <li>Need <strong>faster execution</strong> for large graphs</li>
+          <li>Working with road networks, GPS navigation</li>
+          <li>Graph is dense with many edges</li>
+          <li>Real-time performance is required</li>
+          </ul>
+          <h3 id="133-try-dijkstras-algorithm">13.3 Try Dijkstra's Algorithm</h3>
+          <p>To better understand the differences, try the <strong>Dijkstra's Algorithm simulation</strong> on Virtual Labs:</p>
+          <p>🔗 <strong><a href="https://ds2-iiith.vlabs.ac.in/exp/dijkstra-algorithm/index.html">Dijkstra's Algorithm - Virtual Lab Simulation</a></strong></p>
+          <p>This interactive simulation allows you to:</p>
+          <ul>
+          <li>Visualize step-by-step execution of Dijkstra's algorithm</li>
+          <li>Compare how it differs from Bellman-Ford</li>
+          <li>Understand why Dijkstra fails with negative weights</li>
+          </ul>
+          <hr>
+          <h2 id="14-why-shortest-paths-are-undefined-with-negative-cycles">14. Why Shortest Paths Are Undefined with Negative Cycles</h2>
+          <p>If a graph contains a negative weight cycle, shortest paths become undefined because you can keep traversing the cycle to reduce the path cost indefinitely. Bellman-Ford <strong>successfully detects</strong> such cycles but <strong>cannot compute shortest paths</strong> when they exist.</p>
+          <h3 id="example-of-a-negative-cycle">Example of a Negative Cycle</h3>
+          <p><img src="images/graph2.png" alt="Negative Cycle Example"></p>
+          <p><strong>Edge weights:</strong></p>
+          <ul>
+          <li>A → B: 1</li>
+          <li>B → C: -2</li>
+          <li>C → A: -3</li>
+          </ul>
+          <p><strong>Total cycle weight:</strong> 1 + (-2) + (-3) = -4 (negative)</p>
+          <p><strong>Explanation:</strong>
+          Every time the algorithm goes around this cycle, the total path cost decreases by 4. This means there is no well-defined shortest path, as you can keep looping and getting a lower cost.</p>
+          <p><strong>Bellman-Ford's behavior:</strong></p>
+          <ul>
+          <li>After V-1 iterations, the algorithm checks for further relaxations. If any edge can still be relaxed, a negative cycle exists.</li>
+          <li>In this case, the algorithm will detect the negative cycle and report it, rather than returning shortest paths.</li>
+          </ul>
+          <hr>
+          <h2 id="15-conclusion">15. Conclusion</h2>
+          <p>The Bellman–Ford algorithm is essential for graphs with <strong>negative edge weights</strong> and <strong>negative cycle detection</strong>. While slower than Dijkstra's algorithm, its ability to handle negative weights makes it indispensable in network routing, financial modeling, and constraint-based optimization.</p>
+          
+          </div>
+          <div class="bug-report-mobile">
+              <bug-report id="bug-report" title="[BUG REPORT] BELLMAN-FORD ALGORITHM FOR SINGLE SOURCE SHORTEST PATH" page-type="text" context-info="{&quot;organisation&quot;:&quot;Virtual Labs&quot;,&quot;developer_institute&quot;:&quot;DLBG&quot;,&quot;expname&quot;:&quot;BELLMAN-FORD ALGORITHM FOR SINGLE SOURCE SHORTEST PATH&quot;,&quot;labname&quot;:&quot;Virtual Lab&quot;,&quot;phase&quot;:&quot;Testing&quot;}" checkbox-json="{&quot;text&quot;:[&quot;Insufficient Content&quot;],&quot;video&quot;:[&quot;Insufficient Content&quot;],&quot;assesment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;assessment&quot;:[&quot;Incorrect Options&quot;,&quot;Incorrect Answer&quot;,&quot;Incorrect Question&quot;],&quot;simulation&quot;:[&quot;Simulation Not Working&quot;,&quot;Incorrect Results/Observations&quot;,&quot;Insufficient/Incorrect Instructions&quot;],&quot;DEFAULT&quot;:[&quot;Page Not Loading&quot;,&quot;Content Not Visible&quot;,&quot;Incorrect Content&quot;]}" position="override" button_style="
+                          position: fixed; 
+                          bottom: 20px;
+                          right: 20px;
+                          z-index: 1;
+                          font-size: 0;
+                          padding: 25px;
+                          border-radius: 50%;
+                          border: none;
+                          background-color: #0fc0ff;
+                          background-image: url(data:image/png;base64,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);
+                          background-repeat: no-repeat;
+                          background-position: center;
+                          background-size: 30px;
+                          filter: invert(1);">
+              </bug-report>
+          </div>        </div>
+      </div>
+      <footer class="text-light pt-2 vlabs-footer d-flex flex-column">
+        <div class="row px-5 mx-0">
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Community Links</span>
+            <a href="https://www.sakshat.ac.in/" class="text-light">Sakshat Portal</a>
+            <a href="http://outreach.vlabs.ac.in/" class="text-light">Outreach Portal</a>
+            <a href="https://vlab.co.in/faq" class="text-light">FAQ: Virtual Labs</a>
+          </div>
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Contact Us</span>
+            <span> Phone: General Information: 011-26582050 </span>
+            <span> Email: support@vlabs.ac.in </span>
+          </div>
+          <div class="col d-flex flex-column">
+            <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3">Follow Us</span>
+            <div class="social-links">
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #55acee;" href="https://twitter.com/TheVirtualLabs">
+      	  <i class="fab fa-twitter"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #3b5998;" href="https://www.facebook.com/Virtual-Labs-IIT-Delhi-301510159983871/">
+      	  <i class="fab fa-facebook"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #e52d27;" href="https://www.youtube.com/watch?v=asxRaOgk6a0">
+      	  <i class="fab fa-youtube"></i>
+      	</a>
+      	<a class="p-2 mt-1 mr-2 d-inline-flex justify-content-center align-items-center" style="background: #2867B2;" href="https://in.linkedin.com/in/virtual-labs-008ba9136">
+      	  <i class="fab fa-linkedin"></i>
+      	</a>
+            </div>
+          </div>
+        </div>
+        <div class="m-0 py-2 text-center" style="font-family: &quot;Open Sans&quot;, sans-serif; background: #212121;">
+          <a class="text-primary font-weight-bold" href="https://www.gnu.org/licenses/agpl-3.0.en.html"> AGPL 3.0 </a>
+          &nbsp;&amp;&nbsp;
+          <a class="text-primary font-weight-bold" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"> Creative Commons (CC BY-NC-SA 4.0) </a>
+        </div>
+      </footer>
+    <script src="./assets/js/toggleSidebar.js"></script>
+    <script src="./assets/js/event-handler.js"></script>
+
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register("sw.js");
+        });
+      }
+    </script>
+  
+
+<script type="module" src="https://cdn.vlabs.ac.in/bug-report/vlabs-bug-report.js"></script><script type="module" src="/exp-bellman-ford-dei/plugins/svc-rating/index.js"></script><script type="module" src="/exp-bellman-ford-dei/plugins/svc-rating/config.js"></script><script type="module" src="https://apis.google.com/js/api.js"></script></body></html>
